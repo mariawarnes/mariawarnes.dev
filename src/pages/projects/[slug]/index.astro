@@ -1,5 +1,6 @@
 ---
 import { getCollection, render } from "astro:content";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
 import "../../../styles/global.css";
 
 export async function getStaticPaths() {
@@ -16,15 +17,7 @@ const { Content } = await render(project);
 const { title, summary, image, imageAlt, tags, url, repo } = project.data;
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <title>{title} | Maria Warnes</title>
-  </head>
+<BaseLayout title={`${title} | Maria Warnes`}>
   <body>
     <main>
       <a href="/">Back to projects</a>
@@ -41,4 +34,4 @@ const { title, summary, image, imageAlt, tags, url, repo } = project.data;
       <Content />
     </main>
   </body>
-</html>
+</BaseLayout>

@@ -1,20 +1,13 @@
 ---
 import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import '../styles/global.css';
 
 const projects = await getCollection('projects');
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Maria Warnes</title>
-	</head>
+<BaseLayout title="Maria Warnes">
 	<body class="bg-taupe-100">
     <header>
     <div class="max-w-360 p-6 md:p-10 flex items-center justify-between flex-row">
@@ -38,4 +31,4 @@ const projects = await getCollection('projects');
       </section>
     </div>
 	</body>
-</html>
+</BaseLayout>
