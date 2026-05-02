@@ -1,0 +1,26 @@
+---
+
+import type { CollectionEntry } from "astro:content";
+
+type Project = {
+  project: CollectionEntry<"projects">;
+};
+
+const { project } = Astro.props as Project;
+const { image, imageAlt, title, summary, tags } = project.data;
+const slug = project.data.slug ?? project.id.replace(/\.(md|mdx)$/, "");
+
+---
+
+<div class="rounded shadow overflow-hidden">
+  <img src={image} alt={imageAlt} loading="lazy" class="aspect-auto w-full object-cover" />
+  <div class="p-4 bg-taupe-50">
+  <a href={`/projects/${slug}`}><h4 class="font-bold">{title}</h4></a>
+  <p class="text-pretty text-sm mt-4">{summary}</p>
+  <div class="flex flex-wrap w-full gap-2 mt-4">
+  {tags.map(tag => (
+    <div class="px-3 py-1 text-xs bg-taupe-200 text-taupe-600 rounded">{tag}</div>
+  ))}
+  </div>
+  </div>
+</div>

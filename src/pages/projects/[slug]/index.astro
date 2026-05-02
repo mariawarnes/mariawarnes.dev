@@ -1,0 +1,44 @@
+---
+import { getCollection, render } from "astro:content";
+import "../../../styles/global.css";
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects");
+
+  return projects.map((project) => ({
+    params: { slug: project.data.slug ?? project.id.replace(/\.(md|mdx)$/, "") },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+const { title, summary, image, imageAlt, tags, url, repo } = project.data;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title} | Maria Warnes</title>
+  </head>
+  <body>
+    <main>
+      <a href="/">Back to projects</a>
+      <h1>{title}</h1>
+      <p>{summary}</p>
+      <img src={image} alt={imageAlt} loading="eager" />
+      <div>
+        {tags.map((tag) => <span>{tag}</span>)}
+      </div>
+      <div>
+        {url && <a href={url}>View project</a>}
+        {repo && <a href={repo}>View repository</a>}
+      </div>
+      <Content />
+    </main>
+  </body>
+</html>
