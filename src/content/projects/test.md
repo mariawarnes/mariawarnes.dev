@@ -1,13 +1,13 @@
 ---
-title: "Test"
-slug: "test"
-summary: "Single-Page React App tool designed to provide a user-friendly alternative to the official Subway nutritional calculator."
-image: "/images/subway.webp"
-imageAlt: "Subway Nutrition Calculator homepage design preview"
-url: "https://subway-nutrition-calculator.netlify.com"
-repo: "https://github.com/mariawarnes/subway-nutrition-calculator"
+title: "Open Adventure Compendium"
+slug: "open-adventure-compendium"
+summary: "Astro and Sanity-powered compendium designed to provide a searchable, filterable way to explore tabletop adventure content."
+image: "/images/oac.webp"
+imageAlt: "Open Adventure Compendium homepage design preview"
+url: "https://openadventurecompendium.org"
+repo: "https://github.com/mariawarnes/open-adventure-compendium"
 tags:
-  - React
+  - Astro
   - Typescript
   - Tailwind
 ---
