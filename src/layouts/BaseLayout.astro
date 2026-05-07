@@ -1,11 +1,62 @@
 ---
-import Analytics from '@vercel/analytics/astro';
+import Analytics from "@vercel/analytics/astro";
 
 interface Props {
   title?: string;
+  description?: string;
+  image?: string;
+  bodyClass?: string;
+  structuredData?: Record<string, unknown> | Record<string, unknown>[];
 }
 
-const { title = 'Maria Warnes' } = Astro.props;
+const {
+  title = "Maria Warnes",
+  description = "Maria Warnes is a front end developer with a design background, building clean, accessible and user-focused interfaces.",
+  image,
+  bodyClass,
+  structuredData = [],
+} = Astro.props;
+
+const siteUrl = Astro.site ?? new URL("https://mariawarnes.dev");
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
+const socialProfiles = [
+  "https://www.linkedin.com/in/mariawarnes/",
+  "https://github.com/mariawarnes",
+  "https://codepen.io/mariawarnes",
+];
+const absoluteImage = image ? new URL(image, siteUrl).toString() : undefined;
+const pageStructuredData = Array.isArray(structuredData)
+  ? structuredData
+  : [structuredData];
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": `${siteUrl}#person`,
+      name: "Maria Warnes",
+      url: siteUrl.toString(),
+      jobTitle: "Front End Developer",
+      email: "mailto:maria.l.warnes@gmail.com",
+      sameAs: socialProfiles,
+      knowsAbout: [
+        "Front end development",
+        "Accessible web interfaces",
+        "Design systems",
+        "React",
+        "Astro",
+      ],
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteUrl}#website`,
+      name: "Maria Warnes",
+      url: siteUrl.toString(),
+      author: { "@id": `${siteUrl}#person` },
+    },
+    ...pageStructuredData,
+  ],
+};
 ---
 
 <html lang="en">
@@ -15,10 +66,27 @@ const { title = 'Maria Warnes' } = Astro.props;
     <link rel="icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Maria Warnes" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    {absoluteImage && <meta property="og:image" content={absoluteImage} />}
+    <meta
+      name="twitter:card"
+      content={absoluteImage ? "summary_large_image" : "summary"}
+    />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {absoluteImage && <meta name="twitter:image" content={absoluteImage} />}
+    {socialProfiles.map((profile) => <link rel="me" href={profile} />)}
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
     <title>{title}</title>
     <Analytics />
   </head>
-  <body>
+  <body class={bodyClass}>
     <slot />
   </body>
 </html>

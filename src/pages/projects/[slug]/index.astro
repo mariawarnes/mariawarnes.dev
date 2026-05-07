@@ -7,7 +7,9 @@ export async function getStaticPaths() {
   const projects = await getCollection("projects");
 
   return projects.map((project) => ({
-    params: { slug: project.data.slug ?? project.id.replace(/\.(md|mdx)$/, "") },
+    params: {
+      slug: project.data.slug ?? project.id.replace(/\.(md|mdx)$/, ""),
+    },
     props: { project },
   }));
 }
@@ -15,23 +17,38 @@ export async function getStaticPaths() {
 const { project } = Astro.props;
 const { Content } = await render(project);
 const { title, summary, image, imageAlt, tags, url, repo } = project.data;
+const projectUrl = new URL(Astro.url.pathname, Astro.site).toString();
+const structuredData = {
+  "@type": "CreativeWork",
+  "@id": `${projectUrl}#project`,
+  name: title,
+  description: summary,
+  image: new URL(image, Astro.site).toString(),
+  url: projectUrl,
+  author: { "@id": `${Astro.site}#person` },
+  sameAs: [url, repo].filter(Boolean),
+  keywords: tags,
+};
 ---
 
-<BaseLayout title={`${title} | Maria Warnes`}>
-  <body>
-    <main>
-      <a href="/">Back to projects</a>
-      <h1>{title}</h1>
-      <p>{summary}</p>
-      <img src={image} alt={imageAlt} loading="eager" />
-      <div>
-        {tags.map((tag) => <span>{tag}</span>)}
-      </div>
-      <div>
-        {url && <a href={url}>View project</a>}
-        {repo && <a href={repo}>View repository</a>}
-      </div>
-      <Content />
-    </main>
-  </body>
+<BaseLayout
+  title={`${title} | Maria Warnes`}
+  description={summary}
+  image={image}
+  structuredData={structuredData}
+>
+  <main>
+    <a href="/">Back to projects</a>
+    <h1>{title}</h1>
+    <p>{summary}</p>
+    <img src={image} alt={imageAlt} loading="eager" />
+    <div>
+      {tags.map((tag) => <span>{tag}</span>)}
+    </div>
+    <div>
+      {url && <a href={url}>View project</a>}
+      {repo && <a href={repo}>View repository</a>}
+    </div>
+    <Content />
+  </main>
 </BaseLayout>

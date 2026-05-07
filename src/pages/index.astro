@@ -1,34 +1,67 @@
 ---
-import { getCollection } from 'astro:content';
-import BaseLayout from '../layouts/BaseLayout.astro';
-import ProjectCard from '../components/ProjectCard.astro';
-import '../styles/global.css';
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import "../styles/global.css";
 
-const projects = await getCollection('projects');
+const projects = await getCollection("projects");
+const description =
+  "Maria Warnes is a front end developer with a design background, building clean, accessible and user-focused interfaces.";
 ---
 
-<BaseLayout title="Maria Warnes">
-	<body class="bg-taupe-100">
-    <header>
-    <div class="max-w-360 p-6 md:p-10 flex items-center justify-between flex-row">
-      <h1 >Maria Warnes</h1>
-      <a class="text-sm font-light" href="mailto:maria.l.warnes@gmail.com">maria.l.warnes@gmail.com</a>
-      </div>
-    </header>
+<BaseLayout
+  title="Maria Warnes | Front End Developer"
+  description={description}
+  bodyClass="bg-taupe-100"
+>
+  <header>
+    <div
+      class="max-w-360 p-6 md:p-10 flex items-center justify-between flex-row"
+    >
+      <h1>Maria Warnes</h1>
+      <nav
+        aria-label="Contact and social links"
+        class="flex flex-wrap items-center justify-end gap-4"
+      >
+        <a class="text-sm font-light" href="mailto:maria.l.warnes@gmail.com"
+          >Email</a
+        >
+        <a
+          class="text-sm font-light"
+          href="https://www.linkedin.com/in/mariawarnes/"
+          rel="me">LinkedIn</a
+        >
+        <a
+          class="text-sm font-light"
+          href="https://github.com/mariawarnes"
+          rel="me">GitHub</a
+        >
+        <a
+          class="text-sm font-light"
+          href="https://codepen.io/mariawarnes"
+          rel="me">CodePen</a
+        >
+      </nav>
+    </div>
+  </header>
+  <main>
     <div class="mx-auto max-w-360 p-6 md:p-10">
       <section class="min-h-100 md:min-h-140 flex justify-center flex-col">
         <h2 class="max-w-xl text-4xl md:text-6xl">
-        Front end developer with a design background.
+          Front end developer with a design background.
         </h2>
         <div class="w-12 h-0.5 my-8 border-top bg-taupe-400"></div>
-        <p class="">I build clean, accessible and user-focused interfaces with attention to detail.</p>
+        <p class="">
+          I build clean, accessible and user-focused interfaces with attention
+          to detail.
+        </p>
       </section>
       <section class="">
         <h3 class="text-2xl md:text-3xl mb-6 md:mb-10">Projects</h3>
         <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
-            {projects.map((project) => <ProjectCard project={project} />)}
-          </div>
+          {projects.map((project) => <ProjectCard project={project} />)}
+        </div>
       </section>
     </div>
-	</body>
+  </main>
 </BaseLayout>
